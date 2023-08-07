@@ -43,10 +43,14 @@ class Chart extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: groupedTransactions
-              .map((transaction) => ChartBar(
-                  value: transaction['value'],
-                  label: transaction['day'].toString(),
-                  percentage: transaction['value'] / _weekTotalValue))
+              .map((transaction) => Expanded(
+                    child: ChartBar(
+                        value: transaction['value'],
+                        label: transaction['day'].toString(),
+                        percentage: _weekTotalValue == 0
+                            ? 0
+                            : transaction['value'] / _weekTotalValue),
+                  ))
               .toList(),
         ),
       ),

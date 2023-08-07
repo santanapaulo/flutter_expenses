@@ -64,12 +64,12 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
     Transaction(
         id: 'id1',
-        title: 'Novo tênis',
+        title: 'New shoes',
         value: 250,
         date: DateTime.now().subtract(const Duration(days: 3))),
     Transaction(
         id: 'id2',
-        title: 'Almoço #1',
+        title: 'Lunch #1',
         value: 100,
         date: DateTime.now().subtract(const Duration(days: 4))),
   ];
@@ -81,18 +81,24 @@ class _MyHomePageState extends State<MyHomePage> {
         .toList();
   }
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final transaction = Transaction(
         id: Random().nextDouble().toString(),
         title: title,
         value: value,
-        date: DateTime.now());
+        date: date);
 
     setState(() {
       _transactions.add(transaction);
     });
 
     Navigator.of(context).pop();
+  }
+
+  _deleteTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((element) => element.id == id);
+    });
   }
 
   _openTransactionFormModal(BuildContext context) {
@@ -118,7 +124,10 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             child: Chart(recentsTransactions: _recentsTransactions),
           ),
-          TransactionList(transactions: _transactions),
+          TransactionList(
+            transactions: _transactions,
+            onDeleteTransaction: _deleteTransaction,
+          ),
         ]),
       ),
       floatingActionButton: FloatingActionButton(

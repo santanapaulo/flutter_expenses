@@ -109,16 +109,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
     final appBar = AppBar(
-      title: const Text('Despesas pessoais'),
+      title: Text(
+        'Despesas pessoais',
+        style: TextStyle(fontSize: 20 * mediaQuery.textScaleFactor),
+      ),
       actions: [
         IconButton(
             onPressed: () => _openTransactionFormModal(context),
             icon: const Icon(Icons.add))
       ],
     );
-
-    final mediaQuery = MediaQuery.of(context);
 
     final availableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -

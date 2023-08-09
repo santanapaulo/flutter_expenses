@@ -41,7 +41,7 @@ class TransactionList extends StatelessWidget {
                 return Card(
                   elevation: 5,
                   margin: const EdgeInsets.symmetric(
-                    horizontal: 8,
+                    horizontal: 20,
                     vertical: 5,
                   ),
                   child: ListTile(

@@ -76,6 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
         date: DateTime.now().subtract(const Duration(days: 4))),
   ];
 
+  bool _showChart = false;
+
   List<Transaction> get _recentsTransactions {
     return _transactions
         .where((transaction) => transaction.date
@@ -112,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     final appBar = AppBar(
       title: Text(
@@ -119,9 +122,18 @@ class _MyHomePageState extends State<MyHomePage> {
         style: TextStyle(fontSize: 20 * mediaQuery.textScaleFactor),
       ),
       actions: [
+        if (isLandscape) ...{
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  _showChart = !_showChart;
+                });
+              },
+              icon: Icon(_showChart ? Icons.list : Icons.show_chart)),
+        },
         IconButton(
             onPressed: () => _openTransactionFormModal(context),
-            icon: const Icon(Icons.add))
+            icon: const Icon(Icons.add)),
       ],
     );
 
@@ -134,17 +146,35 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          SizedBox(
-            height: availableHeight * 0.3,
-            child: Chart(recentsTransactions: _recentsTransactions),
-          ),
-          SizedBox(
-            height: availableHeight * 0.7,
-            child: TransactionList(
-              transactions: _transactions,
-              onDeleteTransaction: _deleteTransaction,
-            ),
-          ),
+          // if (isLandscape)
+          //   Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       const Text('Exibir gráfico'),
+          //       Switch(
+          //           value: _showChart,
+          //           onChanged: (value) {
+          //             setState(() {
+          //               _showChart = value;
+          //             });
+          //           })
+          //     ],
+          //   ),
+          if (_showChart || !isLandscape) ...{
+            SizedBox(
+              height: availableHeight * (isLandscape ? .7 : .3),
+              child: Chart(recentsTransactions: _recentsTransactions),
+            )
+          },
+          if (!_showChart || !isLandscape) ...{
+            SizedBox(
+              height: availableHeight * 0.7,
+              child: TransactionList(
+                transactions: _transactions,
+                onDeleteTransaction: _deleteTransaction,
+              ),
+            )
+          },
         ]),
       ),
       floatingActionButton: FloatingActionButton(

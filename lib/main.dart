@@ -8,13 +8,15 @@ import 'package:device_preview/device_preview.dart';
 
 import 'components/transaction_list.dart';
 
-main() => runApp(
-      DevicePreview(
-        builder: (_) {
-          return ExpensesApp();
-        },
-      ),
-    );
+// main() => runApp(
+//       DevicePreview(
+//         builder: (_) {
+//           return ExpensesApp();
+//         },
+//       ),
+//     );
+
+main() => runApp(ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
   ExpensesApp({super.key});
@@ -133,11 +135,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           SizedBox(
-            height: availableHeight * 0.2,
+            height: availableHeight * 0.3,
             child: Chart(recentsTransactions: _recentsTransactions),
           ),
           SizedBox(
-            height: availableHeight * 0.8,
+            height: availableHeight * 0.7,
             child: TransactionList(
               transactions: _transactions,
               onDeleteTransaction: _deleteTransaction,
